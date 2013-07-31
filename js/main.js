@@ -1,4 +1,4 @@
-(function ($) {
+jQuery(function ($) {
 
 	// Set the scene size
 	var WIDTH = 400,
@@ -23,6 +23,42 @@
 		),
 		scene = new THREE.Scene();
 
+	// Setup the sphere vars
+	var radius = 50,
+		segments = 16,
+		rings = 16;
+
+	// Create the sphere's material
+	var sphereMaterial = new THREE.MeshLambertMaterial(
+		{
+			color: 0xCC0000
+		}
+	);
+
+	// Create a new mesh with sphere geometry
+	var sphere = new THREE.Mesh(
+		new THREE.SphereGeometry(
+			radius,
+			segments,
+			rings
+		),
+		sphereMaterial
+	);
+
+	// Create a point light
+	var pointLight = new THREE.PointLight(0xFFFFFF);
+
+	// Set its position
+	pointLight.position.x = 10;
+	pointLight.position.y = 50;
+	pointLight.position.z = 130;
+
+	// Add the light to the scene
+	scene.add(pointLight);
+
+	// Add the sphere to the scene
+	scene.add(sphere);
+
 	// Add the camera to the scene
 	scene.add(camera);
 
@@ -34,4 +70,7 @@
 
 	// Attach the render-supplied DOM element
 	$container.append(renderer.domElement);
-})(jQuery);
+
+	// Draw!
+	renderer.render(scene, camera);
+});
